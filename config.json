@@ -1,8 +1,9 @@
 {
   "Table": {
     "colour": "green",
+
     "image": {
-      "path": "",
+      "path": "application/table.png",
       "size":{
         "x":800.0,
         "y":400.0

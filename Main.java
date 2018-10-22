@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,8 +32,16 @@ public class Main extends Application {
 		GameEngine config = new GameEngine(filePath);
 		Pane root = new Pane();
 		root.setPrefSize(config.getTable().getX(),config.getTable().getY());
+        Caretaker caretaker = new Caretaker();
+        Originator originator = new Originator();
+        // adding start state
+        originator.setState(config.getBalls());
+        caretaker.addMemento( originator.saveToMemento() );
+        caretaker.addMemento( originator.saveToMemento() );
 
-		// Handles mouse-clicking
+
+
+        // Handles mouse-clicking
 		EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -77,19 +86,42 @@ public class Main extends Application {
 				i.getView().addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
 			}
 		}
+
+        /**
+         * Reset Button
+         */
+        Button button = new Button("Reset");
+        button.setPrefSize(50, 50);
+
+        root.getChildren().add(button);
+
 		// Get the coundaries of the table
 		Bounds tableBounds = root.getBoundsInLocal();
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
+
 				config.applyFriction();
 
 				// Detect if there's any collision and if so change velocities accordingly
 				config.updateCollision();
 				// Move balls according to updated velocities
 				config.moveBalls(tableBounds);
+
+                /**
+                 * When CueBall is at rest
+                 */
+                if(config.getCueBall().atRest()){
+                    if(!(config.getBalls().equals(caretaker.getMemento()))) {
+                        originator.setState(config.getBalls());
+                        caretaker.addMemento(originator.saveToMemento());
+                    }
+                }
 			}
 		};
+
+
+
 		timer.start();
 
 		return root;
