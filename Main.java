@@ -21,6 +21,7 @@ import javafx.scene.shape.*;
 public class Main extends Application {
 	public static String filePath = null;
 	protected static boolean dragged = false;
+	static boolean ballHit = false;
 	
 	/**
 	 * Create the content to be displayed in the stage. Delegates hitting cue ball and
@@ -32,6 +33,7 @@ public class Main extends Application {
 		GameEngine config = new GameEngine(filePath);
 		Pane root = new Pane();
 		root.setPrefSize(config.getTable().getX(),config.getTable().getY());
+
         Caretaker caretaker = new Caretaker();
         Originator originator = new Originator();
         // adding start state
@@ -45,8 +47,13 @@ public class Main extends Application {
 		EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
+				Button button = new Button("Reset");
+				if(config.getCueBall().atRest()){
+					root.getChildren().add(button);
+				}
 				if(config.getCueBall().atRest() && !config.getCueBall().isSelected()) { 	// If at rest and not selected already
 					config.getCueBall().setSelected(true);
+					System.out.println("test");
 					// Create and display visual cue stick
 					Rectangle rect = new Rectangle(e.getX(), e.getY(), 20,20);
 					rect.setFill(Color.BROWN);
@@ -65,11 +72,15 @@ public class Main extends Application {
 										// If cueball is selected, and cuestick was dragged after selection, register a shot
 										if(config.getCueBall().isSelected() && dragged) {
 											config.getCueBall().registerShot(event.getSceneX(), event.getSceneY());
+											ballHit = true;
 											config.getCueBall().setSelected(false);
 											Main.dragged = false;
 											root.getChildren().remove(rect);
+											root.getChildren().remove(button);
+
 										}
 									}
+
 								});
 							}
 						}
@@ -87,13 +98,7 @@ public class Main extends Application {
 			}
 		}
 
-        /**
-         * Reset Button
-         */
-        Button button = new Button("Reset");
-        button.setPrefSize(50, 50);
 
-        root.getChildren().add(button);
 
 		// Get the coundaries of the table
 		Bounds tableBounds = root.getBoundsInLocal();
@@ -109,14 +114,15 @@ public class Main extends Application {
 				config.moveBalls(tableBounds);
 
                 /**
-                 * When CueBall is at rest
+                 * Save state if ball is hit
                  */
-                if(config.getCueBall().atRest()){
-                    if(!(config.getBalls().equals(caretaker.getMemento()))) {
-                        originator.setState(config.getBalls());
-                        caretaker.addMemento(originator.saveToMemento());
-                    }
-                }
+				if(ballHit == true) {
+					originator.setState(config.getBalls());
+					caretaker.addMemento(originator.saveToMemento());
+					ballHit = false;
+				}
+
+
 			}
 		};
 
