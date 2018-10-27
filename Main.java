@@ -29,6 +29,7 @@ public class Main extends Application {
 	protected static boolean dragged = false;
 	static boolean ballHit = false;
 	static boolean resetPressed= false;
+	private Cue cue;
 
 	
 	/**
@@ -83,43 +84,45 @@ public class Main extends Application {
                 /**
                  * Cue Drag
                  */
-				if(config.getCueBall().atRest() && !config.getCueBall().isSelected()) { 	// If at rest and not selected already
-					config.getCueBall().setSelected(true);
-					System.out.println("test");
-					// Create and display visual cue stick
-					Rectangle rect = new Rectangle(e.getX(), e.getY(), 20,20);
-					rect.setFill(Color.BROWN);
-					root.getChildren().add(rect);
-					// Allows dragging only when cueball selected
-					rect.setOnMouseDragged(new EventHandler<MouseEvent>() {	
-						@Override
-						// On drag, visually relocate the rect and listen for mouse button release
-						public void handle(MouseEvent event) {
-							if(config.getCueBall().isSelected()) {
-								rect.relocate(event.getSceneX(), event.getSceneY());
-								boolean dragged = true;
-								rect.setOnMouseReleased(new EventHandler<MouseEvent>(){
-									@Override
-									public void handle(MouseEvent event) {
-										// If cueball is selected, and cuestick was dragged after selection, register a shot
-										if(config.getCueBall().isSelected() && dragged) {
-											config.getCueBall().registerShot(event.getSceneX(), event.getSceneY());
-											ballHit = true;
-											config.getCueBall().setSelected(false);
-											Main.dragged = false;
-											root.getChildren().remove(rect);
-											root.getChildren().remove(button);
-
-										}
-									}
-
-								});
-							}
-						}
-					});
-				}
+//				if(config.getCueBall().atRest() && !config.getCueBall().isSelected()) { 	// If at rest and not selected already
+//					config.getCueBall().setSelected(true);
+//					System.out.println("test");
+//					// Create and display visual cue stick
+//					Rectangle rect = new Rectangle(e.getX(), e.getY(), 20,20);
+//					rect.setFill(Color.BROWN);
+//					root.getChildren().add(rect);
+//					// Allows dragging only when cueball selected
+//					rect.setOnMouseDragged(new EventHandler<MouseEvent>() {
+//						@Override
+//						// On drag, visually relocate the rect and listen for mouse button release
+//						public void handle(MouseEvent event) {
+//							if(config.getCueBall().isSelected()) {
+//								rect.relocate(event.getSceneX(), event.getSceneY());
+//								boolean dragged = true;
+//								rect.setOnMouseReleased(new EventHandler<MouseEvent>(){
+//									@Override
+//									public void handle(MouseEvent event) {
+//										// If cueball is selected, and cuestick was dragged after selection, register a shot
+//										if(config.getCueBall().isSelected() && dragged) {
+//											config.getCueBall().registerShot(event.getSceneX(), event.getSceneY());
+//											ballHit = true;
+//											config.getCueBall().setSelected(false);
+//											Main.dragged = false;
+//											root.getChildren().remove(rect);
+//											root.getChildren().remove(button);
+//
+//										}
+//									}
+//
+//								});
+//							}
+//						}
+//					});
+//				}
 			}
 		};
+
+
 
 		// Adding table, balls, and pocket into display
 		root.getChildren().add(config.getTable().getView());
@@ -129,6 +132,8 @@ public class Main extends Application {
 				i.getView().addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
 			}
 		}
+
+		cue = new Cue(config.getCueBall(), root);
 
 
 
@@ -155,6 +160,12 @@ public class Main extends Application {
 				config.updateCollision();
 				// Move balls according to updated velocities
 				config.moveBalls(tableBounds);
+
+				if(config.getCueBall().atRest()){
+				    cue.attachHandlers();
+                } else {
+				    cue.detachHandlers();
+                }
 
                 /**
                  * Save state if ball is hit
