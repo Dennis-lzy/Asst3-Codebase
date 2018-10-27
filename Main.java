@@ -2,6 +2,7 @@ package application;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
@@ -13,6 +14,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This class has the responsibility to handle user input(mouse events),
  * constructs game, and calculate and update game data by delegating the task to game engine methods.
@@ -22,6 +28,8 @@ public class Main extends Application {
 	public static String filePath = null;
 	protected static boolean dragged = false;
 	static boolean ballHit = false;
+	static boolean resetPressed= false;
+
 	
 	/**
 	 * Create the content to be displayed in the stage. Delegates hitting cue ball and
@@ -32,14 +40,19 @@ public class Main extends Application {
 	private Parent createContent(String filePath) {
 		GameEngine config = new GameEngine(filePath);
 		Pane root = new Pane();
-		root.setPrefSize(config.getTable().getX(),config.getTable().getY());
+        Rectangle ballArea;
 
+		Table table = config.getTable();
+		root.setPrefSize(table.getX(),table.getY());
+        List<Ball> prevState = new ArrayList<>();
         Caretaker caretaker = new Caretaker();
         Originator originator = new Originator();
         // adding start state
-        originator.setState(config.getBalls());
-        caretaker.addMemento( originator.saveToMemento() );
-        caretaker.addMemento( originator.saveToMemento() );
+        originator.setState(prevState);
+        caretaker.addMemento(originator.saveToMemento());
+
+
+
 
 
 
@@ -47,10 +60,29 @@ public class Main extends Application {
 		EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
+                /**
+                 * Reset Button Function
+                 */
+
 				Button button = new Button("Reset");
-				if(config.getCueBall().atRest()){
+                button.setOnAction(actionEvent ->  {
+
+                    resetPressed = true;
+                });
+
+                /**
+                 * Sets the Reset button position based on Cueball Position
+                 */
+                if(config.getCueBall().atRest()){
+                    if(config.getCueBall().getxPosition() < config.getTable().getX()/2){
+                        button.setLayoutX(config.getTable().getX()-50);
+                    }
 					root.getChildren().add(button);
 				}
+
+                /**
+                 * Cue Drag
+                 */
 				if(config.getCueBall().atRest() && !config.getCueBall().isSelected()) { 	// If at rest and not selected already
 					config.getCueBall().setSelected(true);
 					System.out.println("test");
@@ -101,7 +133,18 @@ public class Main extends Application {
 
 
 		// Get the coundaries of the table
-		Bounds tableBounds = root.getBoundsInLocal();
+
+        if (table.getImg()==null){
+            ballArea = new Rectangle(table.getX(),table.getY());
+        } else {
+            long offX = table.getOffsetX();
+            long offY = table.getOffsetY();
+            ballArea = new Rectangle(offX, offY, table.getX()-offX,table.getY()-offY);
+        }
+
+        Bounds tableBounds = ballArea.getBoundsInLocal();
+
+
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -117,10 +160,26 @@ public class Main extends Application {
                  * Save state if ball is hit
                  */
 				if(ballHit == true) {
-					originator.setState(config.getBalls());
+
+                    for(Ball b: config.getBalls()){
+                        //Ball ball = new Ball(b);
+                        //prevState.add(ball);
+                    }
+
+                    System.out.println(prevState);
+
+					originator.setState(prevState);
 					caretaker.addMemento(originator.saveToMemento());
+                    System.out.println("printing" + caretaker.getMementoList());
 					ballHit = false;
 				}
+
+				if(resetPressed){
+                    originator.restoreFromMemento(caretaker.getMemento());
+                    config.setBalls(prevState);
+
+                    resetPressed = false;
+                }
 
 
 			}

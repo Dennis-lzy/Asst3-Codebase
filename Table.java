@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 /**
@@ -16,6 +18,12 @@ public class Table {
 	private double friction;
 	private long x;	// x,y determine table size
 	private long y;
+	private long offsetX = 0;
+	private long offsetY = 0;
+	private String img;
+
+
+
 	/**
 	 * @return Colour of the table
 	 */
@@ -38,6 +46,21 @@ public class Table {
 		this.setView();
 		
 	}
+
+	public Table(String img, double friction, long x, long y, long offsetX, long offsetY) {
+		super();
+
+		this.colour = "TRANSPARENT";
+		this.img = img;
+		this.friction = friction;
+		this.x = x;
+		this.y = y;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.setView();
+		System.out.println(img);
+	}
+
 	/**
 	 * @param colour: colour of the table
 	 */
@@ -97,7 +120,34 @@ public class Table {
 	 * Sets the view of the table as a rectangle with specified parameters
 	 */
 	public void setView() {
-		this.view = new Rectangle(this.x, this.y, Paint.valueOf(this.colour));
+		if(img == null){
+			this.view = new Rectangle(this.x, this.y, Paint.valueOf(this.colour));
+		} else{
+			Image image = new Image(img);
+			this.view = new Rectangle(this.x, this.y);
+			((Rectangle) this.view).setFill(new ImagePattern(image));
+		}
+
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public long getOffsetX() {
+		return offsetX;
+	}
+
+	public void setOffsetX(long offsetX) {
+		this.offsetX = offsetX;
+	}
+
+	public long getOffsetY() {
+		return offsetY;
+	}
+
+	public void setOffsetY(long offsetY) {
+		this.offsetY = offsetY;
 	}
 
 	@Override

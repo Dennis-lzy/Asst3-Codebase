@@ -8,7 +8,7 @@ import javafx.scene.shape.Circle;
  * This is an abstract class that defines the object type ball.
  *
  */
-public abstract class Ball {
+public abstract class Ball  {
 	private Circle view;
 	protected String colour;
 	protected double xPosition;
@@ -38,6 +38,18 @@ public abstract class Ball {
 		this.radius = 10.0;	// Default radius 10.0cm
 		this.view = view;
 	}
+
+	public Ball(Ball b){
+	    super();
+        this.colour = b.getColour();
+        this.xPosition = b.getxPosition();
+        this.yPosition = b.getyPosition();
+        this.xVelocity = b.getxVelocity();
+        this.yVelocity = b.getyVelocity();
+        this.mass = b.getMass();
+        this.radius = 10.0;	// Default radius 10.0cm
+        this.view = b.getView();
+    }
 	/**
 	 *  Return colour of the ball
 	 * @return colour of the ball
@@ -126,6 +138,7 @@ public abstract class Ball {
 	 * Returns the radius of the ball
 	 * @return: radius of the ball
 	 */
+
 	public double getRadius() {
 		return radius;
 	}

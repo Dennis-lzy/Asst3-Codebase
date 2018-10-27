@@ -38,6 +38,14 @@ public class GameEngine {
 	public List<Ball> getBalls() {
 		return balls;
 	}
+
+	/**
+	 * Sets the state of balls for memento
+	 */
+	public void setBalls(List<Ball> state) {
+		System.out.println(state);
+		balls = state;
+	}
 	/**
 	 * This constructor takes a filePath name and load game information
 	 * stored in the given file

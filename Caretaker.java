@@ -13,4 +13,8 @@ public class Caretaker {
     public Memento getMemento() {
         return mementos.get(1);
     }
+
+    public List<Memento> getMementoList() {
+        return mementos;
+    }
 }

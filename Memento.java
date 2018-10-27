@@ -7,7 +7,7 @@ public class Memento {
     private List<Ball> state = new ArrayList<>();
 
     public Memento(List<Ball> stateToSave) {
-        state = stateToSave;
+        this.state = stateToSave;
     }
 
     // accessible by outer class only
