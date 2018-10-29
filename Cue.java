@@ -13,7 +13,7 @@ public class Cue extends Line {
     private DoubleProperty mouseY = new SimpleDoubleProperty();
     private Line currentLine = null;
     double power = 0;
-    double MAXPOWER = 900;
+    double MAXPOWER = 1400;
     private boolean dragActive = false;
     private CueBall cueball;
     private Pane root;
@@ -34,8 +34,8 @@ public class Cue extends Line {
         Point2D start = new Point2D(line.getStartX(), line.getStartY());
         Point2D end = new Point2D(line.getEndX(), line.getEndY());
         power = start.distance(end)*3;
-        if(power>900){
-            power=900;
+        if(power>MAXPOWER){
+            power=MAXPOWER;
         }
     }
 

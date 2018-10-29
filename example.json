@@ -1,7 +1,7 @@
 {
   "Table": {
     "image": {
-      "path": "table.png",
+      "path": "application\table.png",
       "offset": {
         "x": 50,
         "y": 25
@@ -16,7 +16,7 @@
       "x": 600,
       "y": 400
     },
-    "pockets": [
+    "Pockets": [
       {
         "position": {
           "x": 50.0,

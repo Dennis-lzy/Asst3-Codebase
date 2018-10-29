@@ -14,6 +14,11 @@ import javafx.scene.paint.Paint;
 public class TableConfiguration extends Configuration{
 
 	@Override
+	Pockets getPockets(JSONObject jsonPockets) {
+		return null;
+	}
+
+	@Override
 	public Ball getBall(JSONObject jsonBall) {
 		return null;
 	}
@@ -40,4 +45,6 @@ public class TableConfiguration extends Configuration{
 		
 		return new Table(tableColour, tableFriction, tableX, tableY);
 	}
+
+
 }

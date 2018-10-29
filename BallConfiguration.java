@@ -34,5 +34,7 @@ public class BallConfiguration extends Configuration {
 	public Table getTable(JSONObject jsonTable) {
 		return null;
 	}
+	@Override
+	Pockets getPockets(JSONObject jsonPockets) {return null;}
 
 }

@@ -17,6 +17,10 @@ public abstract class Ball  {
 	protected double yVelocity;
 	protected double mass;
 	protected double radius;
+
+	public Ball() {
+	}
+
 	/**
 	 * Construct Ball Object with given parameters
 	 * @param colour: colour of the ball
@@ -163,6 +167,9 @@ public abstract class Ball  {
 	public void setView(Circle view) {
 		this.view = view;
 	}
+
+
+
 	/**
 	 * Calculate position of the ball in next frame, change velocity if touching wall
 	 * @param tableBounds: boundaries of the table

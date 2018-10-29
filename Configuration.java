@@ -8,4 +8,5 @@ import org.json.simple.JSONObject;
 public abstract class Configuration {
 	abstract Ball getBall(JSONObject jsonBall);
 	abstract Table getTable(JSONObject jsonTable);
+	abstract Pockets getPockets(JSONObject jsonPockets);
 }

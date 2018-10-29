@@ -3,13 +3,13 @@
     "colour": "green",
 
     "image": {
-      "path": "table.png",
+      "path": "application/table.png",
       "size":{
         "x":800,
         "y":400
       },
       "offset": {
-        "x": 50,
+        "x": 25,
         "y": 25
       }
     },
@@ -17,11 +17,26 @@
     "size": {
       "x": 600,
       "y": 300
-    },
-    "pockets": [
+    }
+  },
+   "Pockets": [
       {
         "position": {
-          "x": 0.0,
+          "x": 40.0,
+          "y": 40.0
+        },
+        "radius": 10.0
+      },
+      {
+        "position": {
+          "x": 400.0,
+          "y": 0.0
+        },
+        "radius": 10.0
+      },
+      {
+        "position": {
+          "x": 800.0,
           "y": 0.0
         },
         "radius": 10.0
@@ -29,40 +44,26 @@
       {
         "position": {
           "x": 0.0,
-          "y": 0.0
+          "y": 400.0
         },
         "radius": 10.0
       },
       {
         "position": {
-          "x": 0.0,
-          "y": 0.0
+          "x": 400.0,
+          "y": 400.0
         },
         "radius": 10.0
       },
       {
         "position": {
-          "x": 0.0,
-          "y": 0.0
-        },
-        "radius": 10.0
-      },
-      {
-        "position": {
-          "x": 0.0,
-          "y": 0.0
-        },
-        "radius": 10.0
-      },
-      {
-        "position": {
-          "x": 0.0,
-          "y": 0.0
+          "x": 800.0,
+          "y": 400.0
         },
         "radius": 10.0
       }
-    ]
-  },
+   ],
+
   "Balls": {
     "ball": [
       {

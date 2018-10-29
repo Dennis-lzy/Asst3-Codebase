@@ -23,7 +23,8 @@ public class GameEngine {
 	private Table table;
 	private List<Ball> balls = new ArrayList<>();
 	private Ball cueBall = null;
-	
+	private List<Pockets> pockets = new ArrayList<>();
+
 	/**
 	 *
 	 * @return Table used in the game
@@ -46,6 +47,16 @@ public class GameEngine {
 		System.out.println(state);
 		balls = state;
 	}
+
+
+	public List<Pockets> getPockets() {
+		return pockets;
+	}
+
+	public void setPockets(List<Pockets> pockets) {
+		this.pockets = pockets;
+	}
+
 	/**
 	 * This constructor takes a filePath name and load game information
 	 * stored in the given file
@@ -87,6 +98,7 @@ public class GameEngine {
 		// Create table reader and ball reader
 		Configuration tableConf = ConfigurationProducer.getInstance().geConfiguration("TABLE");
 		Configuration ballConf = ConfigurationProducer.getInstance().geConfiguration("BALL");
+		Configuration pocketConf = ConfigurationProducer.getInstance().geConfiguration("POCKETS");
 		JSONParser parser = new JSONParser();
 		try {
 			Object object = parser.parse(new FileReader(filePath));
@@ -94,6 +106,8 @@ public class GameEngine {
 			JSONObject jsonObject = (JSONObject) object;
 			// reading the Table section:
 			JSONObject jsonTable = (JSONObject) jsonObject.get("Table");
+			//reading the Pockets section:
+			JSONArray jsonPockets = (JSONArray) jsonObject.get("Pockets");
 			// reading the "Balls" section:
 			JSONObject jsonBalls = (JSONObject) jsonObject.get("Balls");
 			// reading the "Balls: ball" array:
@@ -109,6 +123,13 @@ public class GameEngine {
 				}
 				balls.add(temp);
 				
+			}
+			// Create Pocket object for every pocket:
+			Pockets p;
+			for (Object obj: jsonPockets){
+				JSONObject pocket = (JSONObject) obj;
+				p = pocketConf.getPockets(pocket);
+				pockets.add(p);
 			}
 			// Create a table object
 			this.table = tableConf.getTable(jsonTable);
@@ -173,6 +194,9 @@ public class GameEngine {
 			}        			
 		}
 	}
+
+
+
 	
 	/**
 	 * Move all balls on table according to their speeds. This method does not detect to change position due to collision.

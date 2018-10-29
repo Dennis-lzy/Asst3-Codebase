@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 /**
  * This class has the responsibility to handle user input(mouse events),
  * constructs game, and calculate and update game data by delegating the task to game engine methods.
@@ -82,7 +84,7 @@ public class Main extends Application {
 				}
 
                 /**
-                 * Cue Drag
+                 * Replaced by Cue Class
                  */
 //				if(config.getCueBall().atRest() && !config.getCueBall().isSelected()) { 	// If at rest and not selected already
 //					config.getCueBall().setSelected(true);
@@ -126,12 +128,18 @@ public class Main extends Application {
 
 		// Adding table, balls, and pocket into display
 		root.getChildren().add(config.getTable().getView());
+		for(Pockets p : config.getPockets()){
+			root.getChildren().add(p.getView());
+		}
+
 		for(Ball i : config.getBalls()) {
 			root.getChildren().add(i.getView());
 			if(i.getColour().equals("white")) {
 				i.getView().addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
 			}
 		}
+
+
 
 		cue = new Cue(config.getCueBall(), root);
 
@@ -158,6 +166,11 @@ public class Main extends Application {
 
 				// Detect if there's any collision and if so change velocities accordingly
 				config.updateCollision();
+
+				/**
+				 * Remove balls from pockets
+				 */
+
 				// Move balls according to updated velocities
 				config.moveBalls(tableBounds);
 

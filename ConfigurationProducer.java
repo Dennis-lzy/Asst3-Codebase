@@ -24,7 +24,10 @@ public class ConfigurationProducer {
 		}
 		else if(conf.equalsIgnoreCase("TABLE")) {
 			return new TableConfiguration();
+		} else if (conf.equalsIgnoreCase("POCKETS")) {
+			return new PocketsConfiguration();
 		}
+
 		
 		return null;
 	}
