@@ -25,35 +25,35 @@
           "x": 40.0,
           "y": 40.0
         },
-        "radius": 10.0
+        "radius": 20.0
       },
       {
         "position": {
           "x": 400.0,
           "y": 0.0
         },
-        "radius": 10.0
+        "radius": 20.0
       },
       {
         "position": {
           "x": 800.0,
           "y": 0.0
         },
-        "radius": 10.0
+        "radius": 20.0
       },
       {
         "position": {
           "x": 0.0,
           "y": 400.0
         },
-        "radius": 10.0
+        "radius": 30.0
       },
       {
         "position": {
           "x": 400.0,
           "y": 400.0
         },
-        "radius": 10.0
+        "radius": 30.0
       },
       {
         "position": {

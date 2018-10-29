@@ -170,6 +170,7 @@ public class Main extends Application {
 				/**
 				 * Remove balls from pockets
 				 */
+				config.checkPockets(root);
 
 				// Move balls according to updated velocities
 				config.moveBalls(tableBounds);

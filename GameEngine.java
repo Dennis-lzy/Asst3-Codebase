@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.layout.Pane;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -195,9 +196,23 @@ public class GameEngine {
 		}
 	}
 
+	public void checkPockets(Pane root) {
+		for(Pockets p : this.getPockets()){
+			Pockets pocket = p;
+			Ball ball;
+			for(Ball b :this.getBalls()){
+				ball = b;
+				if (pocket.containsBall(ball)){
+					pocket.removeSunkBalls(root, ball);
+					System.out.println("ball sunk");
+				}
+
+			}
+		}
+	}
 
 
-	
+
 	/**
 	 * Move all balls on table according to their speeds. This method does not detect to change position due to collision.
 	 * Collision is handled in a seperate method with parameter of ball positions in the next frame
