@@ -26,6 +26,17 @@ public class GameEngine {
 	private Ball cueBall = null;
 	private List<Pockets> pockets = new ArrayList<>();
 
+
+	public void clearAll(){
+		this.table=null;
+		this.balls = new ArrayList<>();
+		this.cueBall = null;
+		this.pockets = new ArrayList<>();
+	}
+
+
+
+
 	/**
 	 *
 	 * @return Table used in the game
@@ -41,13 +52,14 @@ public class GameEngine {
 		return balls;
 	}
 
+	public void setBalls(List<Ball> balls) {
+		this.balls = balls;
+	}
+
 	/**
 	 * Sets the state of balls for memento
 	 */
-	public void setBalls(List<Ball> state) {
-		System.out.println(state);
-		balls = state;
-	}
+
 
 
 	public List<Pockets> getPockets() {
@@ -72,6 +84,7 @@ public class GameEngine {
 	 */
 	public void applyFriction() {
 		Ball temp;
+
 		for(int i = 0; i < balls.size(); i++) {	// Calculate for every ball
 			temp = balls.get(i);
 			// Set x velocity
@@ -108,12 +121,14 @@ public class GameEngine {
 			// reading the Table section:
 			JSONObject jsonTable = (JSONObject) jsonObject.get("Table");
 			//reading the Pockets section:
-			JSONArray jsonPockets = (JSONArray) jsonObject.get("Pockets");
+			JSONArray jsonPockets = (JSONArray) jsonTable.get("Pockets");
+			System.out.println(jsonPockets);
 			// reading the "Balls" section:
 			JSONObject jsonBalls = (JSONObject) jsonObject.get("Balls");
 			// reading the "Balls: ball" array:
 			JSONArray jsonBallsBall = (JSONArray) jsonBalls.get("ball");
 			// reading from the array:
+
 			Ball temp;
 			// Create ball object for every ball
 			for (Object obj : jsonBallsBall) {
@@ -128,6 +143,7 @@ public class GameEngine {
 			// Create Pocket object for every pocket:
 			Pockets p;
 			for (Object obj: jsonPockets){
+				System.out.println("test");
 				JSONObject pocket = (JSONObject) obj;
 				p = pocketConf.getPockets(pocket);
 				pockets.add(p);
@@ -203,7 +219,14 @@ public class GameEngine {
 			for(Ball b :this.getBalls()){
 				ball = b;
 				if (pocket.containsBall(ball)){
-					pocket.removeSunkBalls(root, ball);
+					if(ball == cueBall){
+						cueBall.setxVelocity(0);
+						cueBall.setyVelocity(0);
+						cueBall.setSunk(true);
+						System.out.println("cue ball at rest test");
+					}
+					pocket.removeSunkBalls(root, ball, balls);
+
 					System.out.println("ball sunk");
 				}
 

@@ -1,7 +1,7 @@
 {
   "Table": {
     "image": {
-      "path": "application\table.png",
+      "path": "application/table.png",
       "offset": {
         "x": 50,
         "y": 25
@@ -19,54 +19,54 @@
     "Pockets": [
       {
         "position": {
-          "x": 50.0,
-          "y": 25.0
+          "x": 40.0,
+          "y": 40.0
         },
-        "radius": 50.0
+        "radius": 20.0
       },
       {
         "position": {
-          "x": 650.0,
-          "y": 25.0
+          "x": 400.0,
+          "y": 0.0
         },
-        "radius": 50.0
+        "radius": 20.0
       },
       {
         "position": {
-          "x": 50.0,
-          "y": 425.0
+          "x": 800.0,
+          "y": 0.0
         },
-        "radius": 50.0
+        "radius": 20.0
       },
       {
         "position": {
-          "x": 650.0,
-          "y": 425.0
+          "x": 0.0,
+          "y": 400.0
         },
-        "radius": 50.0
+        "radius": 30.0
       },
       {
         "position": {
-          "x": 350.0,
-          "y": 25.0
+          "x": 400.0,
+          "y": 400.0
         },
-        "radius": 50.0
+        "radius": 30.0
       },
       {
         "position": {
-          "x": 350.0,
-          "y": 425.0
+          "x": 800.0,
+          "y": 400.0
         },
-        "radius": 50.0
+        "radius": 10.0
       }
-      ]
+    ]
   },
   "Balls": {
     "ball": [
       {
         "colour": "white",
         "position": {
-          "x": 20.0,
+          "x": 200.0,
           "y": 100.0
         },
         "velocity": {
@@ -78,7 +78,7 @@
       {
         "colour": "purple",
         "position": {
-          "x": 25.0,
+          "x": 400.0,
           "y": 45.0
         },
         "velocity": {
@@ -108,8 +108,8 @@
       {
         "colour": "red",
         "position": {
-          "x": 25.0,
-          "y": 65.0
+          "x": 305.0,
+          "y": 161.0
         },
         "velocity": {
           "x": 0.0,
@@ -120,8 +120,8 @@
       {
         "colour": "red",
         "position": {
-          "x": 25.0,
-          "y": 85.0
+          "x": 410.0,
+          "y": 285.0
         },
         "velocity": {
           "x": 0.0,

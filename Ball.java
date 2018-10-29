@@ -8,7 +8,7 @@ import javafx.scene.shape.Circle;
  * This is an abstract class that defines the object type ball.
  *
  */
-public abstract class Ball  {
+public abstract class Ball implements BallComponent{
 	private Circle view;
 	protected String colour;
 	protected double xPosition;
@@ -17,6 +17,51 @@ public abstract class Ball  {
 	protected double yVelocity;
 	protected double mass;
 	protected double radius;
+	private boolean isSunk = false;
+
+	public Memento save(){
+		return new Memento(view, colour, xPosition, yPosition, xVelocity, yVelocity, mass, radius, isSunk);
+	}
+
+	public void undoToLastSave(Object obj){
+		Memento memento = (Memento) obj;
+		this.view = memento.view;
+		this.colour = memento.colour;
+		this.xPosition = memento.xPosition;
+		this.yPosition = memento.yPosition;
+		this.xVelocity = memento.xVelocity;
+		this.yVelocity = memento.yVelocity;
+		this.mass = memento.mass;
+		this.radius = memento.radius;
+		this.isSunk = memento.isSunk;
+	}
+
+
+	private class Memento{
+		private Circle view;
+		protected String colour;
+		protected double xPosition;
+		protected double yPosition;
+		protected double xVelocity;
+		protected double yVelocity;
+		protected double mass;
+		protected double radius;
+		private boolean isSunk = false;
+
+		public Memento(Circle view, String colour, double xPosition, double yPosition, double xVelocity, double yVelocity, double mass, double radius, boolean isSunk) {
+			this.view = view;
+			this.colour = colour;
+			this.xPosition = xPosition;
+			this.yPosition = yPosition;
+			this.xVelocity = xVelocity;
+			this.yVelocity = yVelocity;
+			this.mass = mass;
+			this.radius = radius;
+			this.isSunk = isSunk;
+		}
+	}
+
+
 
 	public Ball() {
 	}
@@ -168,6 +213,13 @@ public abstract class Ball  {
 		this.view = view;
 	}
 
+	public boolean isSunk() {
+		return isSunk;
+	}
+
+	public void setSunk(boolean sunk) {
+		this.isSunk = sunk;
+	}
 
 
 	/**

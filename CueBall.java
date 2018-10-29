@@ -1,13 +1,15 @@
 package application;
 
+import javafx.geometry.Bounds;
 import javafx.scene.shape.Circle;
 
 /**
  * This class defines characteristics of a cue ball which extends the ball class
  */
 public class CueBall extends Ball {
-	
-	private boolean isSelected;
+
+
+	private boolean isHit;
 
 	/**
 	 * Construct the cue ball with given parameters
@@ -30,22 +32,13 @@ public class CueBall extends Ball {
 		return "CueBall [colour=" + colour + ", xPosition=" + xPosition + ", yPosition=" + yPosition + ", xVelocity="
 				+ xVelocity + ", yVelocity=" + yVelocity + ", mass=" + mass + "]";
 	}
-	/**
-	 * Returns if the ball has been selected by clicking on the mouse
-	 * @return If the ball has been selected by clicking on the mouse
-	 */
-	public boolean isSelected() {
-		return isSelected;
-	}
-	/**
-	 * Set if the ball has been selected by clicking on the mouse
-	 * @param isSelecte: if the ball has been selected by clicking on the mouse
-	 */
-	public void setSelected(boolean isSelected) {
-		this.isSelected = isSelected;
-	}
-	
-	/**
+
+
+    public boolean isHit() {
+        return isHit;
+    }
+
+    /**
 	 * Returns If cueball is at rest
 	 * @return If cueball is at rest
 	 */
@@ -64,4 +57,15 @@ public class CueBall extends Ball {
 		this.setyVelocity((this.getView().getCenterY() - y)*2);
 	}
 
+
+	@Override
+	public boolean isColliding(Ball ball2) {
+		return super.isColliding(ball2);
+	}
+
+	@Override
+	public void calculatePosition(Bounds tableBounds) {
+		super.calculatePosition(tableBounds);
+
+	}
 }

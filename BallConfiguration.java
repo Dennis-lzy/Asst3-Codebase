@@ -15,12 +15,18 @@ public class BallConfiguration extends Configuration {
 	public Ball getBall(JSONObject jsonBall) {
 		BallBuilder builder;
 		String colour = (String)jsonBall.get("colour");
+        boolean isComposite = jsonBall.containsKey("mass");
+        System.out.println(isComposite);
 		if(colour.equalsIgnoreCase("white")) {
 			builder = new CueBallBuilder();
 			director.constructCueBall(builder, jsonBall);
 			return builder.getResult();
 		}
-		else  {
+		else if (jsonBall.containsKey("mass") == false) {
+		    builder = new CompositeBallBuilder();
+		    director.constructCompositeBall(builder, jsonBall);
+            return builder.getResult();
+		} else {
 			builder = new PoolBallBuilder();
 			director.constructTargetBall(builder, jsonBall);
 			return builder.getResult();

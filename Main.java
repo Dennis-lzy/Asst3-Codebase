@@ -28,9 +28,7 @@ import static java.lang.Math.abs;
  */
 public class Main extends Application {
 	public static String filePath = null;
-	protected static boolean dragged = false;
-	static boolean ballHit = false;
-	static boolean resetPressed= false;
+	protected static boolean dragged = false;;
 	private Cue cue;
 
 	
@@ -44,15 +42,58 @@ public class Main extends Application {
 		GameEngine config = new GameEngine(filePath);
 		Pane root = new Pane();
         Rectangle ballArea;
-
 		Table table = config.getTable();
 		root.setPrefSize(table.getX(),table.getY());
-        List<Ball> prevState = new ArrayList<>();
-        Caretaker caretaker = new Caretaker();
-        Originator originator = new Originator();
-        // adding start state
-        originator.setState(prevState);
-        caretaker.addMemento(originator.saveToMemento());
+		BallCaretaker caretaker = new BallCaretaker();
+
+        for (Ball b: config.getBalls()){
+            caretaker.save(b);
+            System.out.print(b);
+        }
+
+        Button revertButton = new Button("Revert");
+
+
+        revertButton.setOnAction(actionEvent ->  {
+
+
+            for(Ball b: config.getBalls()){
+                caretaker.undo(b);
+            }
+            System.out.println("restore state: " +config.getBalls());
+
+        });
+
+
+        /**
+         * Restart Button
+         */
+
+        Button restartButton = new Button("Restart");
+        restartButton.setLayoutX(600);
+        restartButton.setOnAction(actionEvent ->  {
+
+            root.getChildren().clear();
+
+            config.clearAll();
+
+            config.readConfig(filePath);
+
+            root.getChildren().add(config.getTable().getView());
+            for(Pockets p : config.getPockets()){
+                root.getChildren().add(p.getView());
+            }
+
+            for(Ball i : config.getBalls()) {
+                root.getChildren().add(i.getView());
+
+
+            }
+            cue = new Cue(config.getCueBall(), root);
+            root.getChildren().add(revertButton);
+            root.getChildren().add(restartButton);
+        });
+
 
 
 
@@ -67,21 +108,10 @@ public class Main extends Application {
                  * Reset Button Function
                  */
 
-				Button button = new Button("Reset");
-                button.setOnAction(actionEvent ->  {
-
-                    resetPressed = true;
-                });
-
                 /**
-                 * Sets the Reset button position based on Cueball Position
+                 * Sets the Reset revertButton position based on Cueball Position
                  */
-                if(config.getCueBall().atRest()){
-                    if(config.getCueBall().getxPosition() < config.getTable().getX()/2){
-                        button.setLayoutX(config.getTable().getX()-50);
-                    }
-					root.getChildren().add(button);
-				}
+
 
                 /**
                  * Replaced by Cue Class
@@ -96,7 +126,7 @@ public class Main extends Application {
 //					// Allows dragging only when cueball selected
 //					rect.setOnMouseDragged(new EventHandler<MouseEvent>() {
 //						@Override
-//						// On drag, visually relocate the rect and listen for mouse button release
+//						// On drag, visually relocate the rect and listen for mouse revertButton release
 //						public void handle(MouseEvent event) {
 //							if(config.getCueBall().isSelected()) {
 //								rect.relocate(event.getSceneX(), event.getSceneY());
@@ -111,7 +141,7 @@ public class Main extends Application {
 //											config.getCueBall().setSelected(false);
 //											Main.dragged = false;
 //											root.getChildren().remove(rect);
-//											root.getChildren().remove(button);
+//											root.getChildren().remove(revertButton);
 //
 //										}
 //									}
@@ -126,7 +156,7 @@ public class Main extends Application {
 
 
 
-		// Adding table, balls, and pocket into display
+		// Adding buttons, table, balls, and pocket into display
 		root.getChildren().add(config.getTable().getView());
 		for(Pockets p : config.getPockets()){
 			root.getChildren().add(p.getView());
@@ -134,14 +164,20 @@ public class Main extends Application {
 
 		for(Ball i : config.getBalls()) {
 			root.getChildren().add(i.getView());
+
 			if(i.getColour().equals("white")) {
 				i.getView().addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
 			}
 		}
 
+		root.getChildren().add(revertButton);
+		root.getChildren().add(restartButton);
+
 
 
 		cue = new Cue(config.getCueBall(), root);
+
+
 
 
 
@@ -162,10 +198,18 @@ public class Main extends Application {
 			@Override
 			public void handle(long now) {
 
+                if(config.getBalls() == null){
+                    return;
+                } else {
+
 				config.applyFriction();
 
 				// Detect if there's any collision and if so change velocities accordingly
 				config.updateCollision();
+
+
+
+
 
 				/**
 				 * Remove balls from pockets
@@ -175,36 +219,26 @@ public class Main extends Application {
 				// Move balls according to updated velocities
 				config.moveBalls(tableBounds);
 
-				if(config.getCueBall().atRest()){
+				if(config.getCueBall().atRest() && config.getCueBall().isSunk() == false){
+
 				    cue.attachHandlers();
                 } else {
 				    cue.detachHandlers();
+
                 }
+
+
+
+
+
+                }
+
+
 
                 /**
                  * Save state if ball is hit
                  */
-				if(ballHit == true) {
 
-                    for(Ball b: config.getBalls()){
-                        //Ball ball = new Ball(b);
-                        //prevState.add(ball);
-                    }
-
-                    System.out.println(prevState);
-
-					originator.setState(prevState);
-					caretaker.addMemento(originator.saveToMemento());
-                    System.out.println("printing" + caretaker.getMementoList());
-					ballHit = false;
-				}
-
-				if(resetPressed){
-                    originator.restoreFromMemento(caretaker.getMemento());
-                    config.setBalls(prevState);
-
-                    resetPressed = false;
-                }
 
 
 			}
@@ -233,7 +267,7 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 		try {
-			filePath = "application/config.json";
+			filePath = "application/example.json";
 			launch(args);
 		}
 		catch(ArrayIndexOutOfBoundsException e) {

@@ -5,6 +5,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.util.List;
+
 public class Pockets extends Ball {
 
     private Circle view;
@@ -59,8 +61,9 @@ public class Pockets extends Ball {
         this.radius = radius;
     }
 
-    public void removeSunkBalls(Pane root, Ball ball){
+    public void removeSunkBalls(Pane root, Ball ball, List<Ball> balls){
         root.getChildren().remove(ball.getView());
+        balls.remove(ball);
     }
 
     public boolean containsBall(Ball ball) {

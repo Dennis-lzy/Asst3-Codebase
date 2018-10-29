@@ -1,5 +1,6 @@
 package application;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 /**
  * This class defines different ways to build ball objects based on the object type
@@ -36,5 +37,16 @@ public class BallDirector {
 		builder.setmass(jsonBall);
 		builder.setView(jsonBall);
 	}
+
+	public void constructCompositeBall(BallBuilder builder, JSONObject jsonBall){
+		builder.setColour(jsonBall);
+		builder.setpositionX(jsonBall);
+		builder.setpositionY(jsonBall);
+		builder.setvelocityX(jsonBall);
+		builder.setvelocityY(jsonBall);
+
+		builder.setView(jsonBall);
+	}
+
 
 }
