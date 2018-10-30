@@ -1,17 +1,19 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Memento {
-    private List<Ball> state = new ArrayList<>();
+    private double xPosition;
+    private double yPosition;
 
-    public Memento(List<Ball> stateToSave) {
-        this.state = stateToSave;
+    public Memento(double x, double y){
+        this.xPosition = x;
+        this.yPosition = y;
     }
 
-    // accessible by outer class only
-    public List<Ball> getSavedState() {
-        return state;
+    public double getXPosition() {
+        return xPosition;
+    }
+
+    public double getYPosition() {
+        return yPosition;
     }
 }

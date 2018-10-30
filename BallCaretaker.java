@@ -1,17 +1,16 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BallCaretaker {
-    private List<Object> objectList;
-    private Object obj;
+    private List<Memento> mementoList = new ArrayList<Memento>();
 
-    public void save(Ball ball){
-        this.obj=ball.save();
-//        objectList.add(obj);
+    public void add(Memento state){
+        mementoList.add(state);
     }
 
-    public void undo(Ball ball){
-        ball.undoToLastSave(obj);
+    public Memento get(int index){
+        return mementoList.get(index);
     }
 }

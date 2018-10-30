@@ -18,49 +18,49 @@ public abstract class Ball implements BallComponent{
 	protected double mass;
 	protected double radius;
 	private boolean isSunk = false;
+	BallCaretaker caretaker = new BallCaretaker();
+	private int count=0;
 
-	public Memento save(){
-		return new Memento(view, colour, xPosition, yPosition, xVelocity, yVelocity, mass, radius, isSunk);
-	}
+    /**
+     *
+     * @return Caretaker
+     */
 
-	public void undoToLastSave(Object obj){
-		Memento memento = (Memento) obj;
-		this.view = memento.view;
-		this.colour = memento.colour;
-		this.xPosition = memento.xPosition;
-		this.yPosition = memento.yPosition;
-		this.xVelocity = memento.xVelocity;
-		this.yVelocity = memento.yVelocity;
-		this.mass = memento.mass;
-		this.radius = memento.radius;
-		this.isSunk = memento.isSunk;
-	}
+    public BallCaretaker getCaretaker() {
+        return caretaker;
+    }
 
+    /**
+     * Saves state
+     * @return Memento
+     */
+    public Memento saveStateToMemento(){
+        count++;
+        System.out.println(count);
+        return new Memento(this.xPosition, this.yPosition);
+    }
 
-	private class Memento{
-		private Circle view;
-		protected String colour;
-		protected double xPosition;
-		protected double yPosition;
-		protected double xVelocity;
-		protected double yVelocity;
-		protected double mass;
-		protected double radius;
-		private boolean isSunk = false;
+    /**
+     *
+     * @param m
+     * @return xPosition and yPosition of saved memnto state
+     */
+    public double getXFromMemento(Memento m){
+        return m.getXPosition();
+    }
 
-		public Memento(Circle view, String colour, double xPosition, double yPosition, double xVelocity, double yVelocity, double mass, double radius, boolean isSunk) {
-			this.view = view;
-			this.colour = colour;
-			this.xPosition = xPosition;
-			this.yPosition = yPosition;
-			this.xVelocity = xVelocity;
-			this.yVelocity = yVelocity;
-			this.mass = mass;
-			this.radius = radius;
-			this.isSunk = isSunk;
-		}
-	}
+    public double getYFromMemento(Memento m){
+        return m.getYPosition();
+    }
 
+    /**
+     * Resets the ball position to saved state
+     */
+    public void reset(){
+
+        this.view.setCenterX(getXFromMemento(caretaker.get(count-1)));
+        this.view.setCenterY(getYFromMemento(caretaker.get(count-1)));
+    }
 
 
 	public Ball() {
@@ -88,6 +88,10 @@ public abstract class Ball implements BallComponent{
 		this.view = view;
 	}
 
+    /**
+     * Constructs Ball from another ball;;
+     * @param b
+     */
 	public Ball(Ball b){
 	    super();
         this.colour = b.getColour();
@@ -128,8 +132,8 @@ public abstract class Ball implements BallComponent{
 		this.xPosition = xPosition;
 	}
 	/**
-	 * 
-	 * @return
+	 * Returns the y position of the ball
+	 * @return yPosition
 	 */
 	public double getyPosition() {
 		return yPosition;
@@ -213,10 +217,18 @@ public abstract class Ball implements BallComponent{
 		this.view = view;
 	}
 
+    /**
+     * Checks if ball has been sunk
+     * @return isSunk
+     */
 	public boolean isSunk() {
 		return isSunk;
 	}
 
+    /**
+     * Sets sunk status of ball
+     * @param sunk
+     */
 	public void setSunk(boolean sunk) {
 		this.isSunk = sunk;
 	}

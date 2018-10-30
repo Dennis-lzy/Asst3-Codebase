@@ -27,9 +27,17 @@ public class Cue extends Line {
     double newY;
     Rotate rotate = new Rotate(45);
 
+    private static Cue instance = new Cue();
 
-    public Cue(CueBall cb, Pane r) {
-        super();
+    public static Cue getInstance(){
+        return instance;
+    }
+
+    public Cue(){}
+
+
+    public void setCueBall(CueBall cb, Pane r) {
+
         super.setStrokeWidth(5);
         super.setStartX(cb.getxPosition());
         super.setStartY(cb.getyPosition());

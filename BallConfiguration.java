@@ -16,7 +16,6 @@ public class BallConfiguration extends Configuration {
 		BallBuilder builder;
 		String colour = (String)jsonBall.get("colour");
         boolean isComposite = jsonBall.containsKey("mass");
-        System.out.println(isComposite);
 		if(colour.equalsIgnoreCase("white")) {
 			builder = new CueBallBuilder();
 			director.constructCueBall(builder, jsonBall);

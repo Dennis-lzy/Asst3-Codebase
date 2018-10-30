@@ -28,8 +28,7 @@ import static java.lang.Math.abs;
  */
 public class Main extends Application {
 	public static String filePath = null;
-	protected static boolean dragged = false;;
-	private Cue cue;
+	private boolean stateSaved = false;
 
 	
 	/**
@@ -39,36 +38,39 @@ public class Main extends Application {
 	 * @return: built scene with all the information specified in filePath
 	 */
 	private Parent createContent(String filePath) {
+        /**
+         * Initialises the Game engine, Pane, ballArea, table
+         */
 		GameEngine config = new GameEngine(filePath);
 		Pane root = new Pane();
         Rectangle ballArea;
 		Table table = config.getTable();
+
+        /**
+         * Sets Pane layout size
+         */
 		root.setPrefSize(table.getX(),table.getY());
-		BallCaretaker caretaker = new BallCaretaker();
 
-        for (Ball b: config.getBalls()){
-            caretaker.save(b);
-            System.out.print(b);
-        }
+        /**
+         * Gets instance of Cue Singleton and sets the Cue ball
+         */
+		Cue cue = Cue.getInstance();
+        cue.setCueBall(config.getCueBall(), root);
 
+        /**
+         * Revert Button Implementation
+         */
         Button revertButton = new Button("Revert");
-
-
         revertButton.setOnAction(actionEvent ->  {
-
-
-            for(Ball b: config.getBalls()){
-                caretaker.undo(b);
+            for(Ball b : config.getBalls()){
+                b.reset();
             }
-            System.out.println("restore state: " +config.getBalls());
-
         });
 
 
         /**
-         * Restart Button
+         * Restart Button Implementation
          */
-
         Button restartButton = new Button("Restart");
         restartButton.setLayoutX(600);
         restartButton.setOnAction(actionEvent ->  {
@@ -89,28 +91,19 @@ public class Main extends Application {
 
 
             }
-            cue = new Cue(config.getCueBall(), root);
+            cue.setCueBall(config.getCueBall(), root);
             root.getChildren().add(revertButton);
             root.getChildren().add(restartButton);
         });
 
 
-
-
-
-
-
+        /**
+         * Old Mouse Event handler for Cue
+         */
         // Handles mouse-clicking
 		EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-                /**
-                 * Reset Button Function
-                 */
-
-                /**
-                 * Sets the Reset revertButton position based on Cueball Position
-                 */
 
 
                 /**
@@ -155,8 +148,9 @@ public class Main extends Application {
 		};
 
 
-
-		// Adding buttons, table, balls, and pocket into display
+        /**
+         * Adding buttons, table, balls, and pocket into display
+         */
 		root.getChildren().add(config.getTable().getView());
 		for(Pockets p : config.getPockets()){
 			root.getChildren().add(p.getView());
@@ -174,14 +168,9 @@ public class Main extends Application {
 		root.getChildren().add(restartButton);
 
 
-
-		cue = new Cue(config.getCueBall(), root);
-
-
-
-
-
-		// Get the coundaries of the table
+        /**
+         * Gets Table Boundaries
+         */
 
         if (table.getImg()==null){
             ballArea = new Rectangle(table.getX(),table.getY());
@@ -193,37 +182,58 @@ public class Main extends Application {
 
         Bounds tableBounds = ballArea.getBoundsInLocal();
 
-
-		AnimationTimer timer = new AnimationTimer() {
+        /**
+         *  Game Loop
+         */
+        AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 
                 if(config.getBalls() == null){
                     return;
                 } else {
-
 				config.applyFriction();
-
-				// Detect if there's any collision and if so change velocities accordingly
 				config.updateCollision();
+
+                    /**
+                     * Save state if cueball is at rest and State has not been already saved
+                     */
+                 if(config.getCueBall().atRest() && config.getCueBall().isSunk() == false){
+                     //System.out.println(stateSaved);
+                     if(stateSaved == false){
+                         for(Ball b: config.getBalls()){
+                             b.getCaretaker().add(b.saveStateToMemento());
+                             System.out.println(b);
+                         }
+                         stateSaved = true;
+                     }
+                 };
 
 
 
 
 
 				/**
-				 * Remove balls from pockets
+				 * Remove balls from pockets if the balls are contained within
 				 */
 				config.checkPockets(root);
 
-				// Move balls according to updated velocities
+                    /**
+                     * Move balls according to updated velocities
+                     */
 				config.moveBalls(tableBounds);
 
+                    /**
+                     * Attach mouse handlers for cue on ball stop
+                     */
+
 				if(config.getCueBall().atRest() && config.getCueBall().isSunk() == false){
+
 
 				    cue.attachHandlers();
                 } else {
 				    cue.detachHandlers();
+				    stateSaved = false;
 
                 }
 
@@ -232,14 +242,6 @@ public class Main extends Application {
 
 
                 }
-
-
-
-                /**
-                 * Save state if ball is hit
-                 */
-
-
 
 			}
 		};

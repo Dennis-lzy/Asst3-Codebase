@@ -188,14 +188,14 @@ public class BallComposite extends Ball {
         float ballRadius;
         Point2D preCollisionVelocity;
         Point2D deltaV;
-        float energyOfCollision = ball2.getMass()*pow(deltaV, 2);
-        if (this.strength < energyOfCollision) {
-            float energyPerBall = energyOfCollision / balls.size();
-            Point2D pointOfCollision = (-deltaV.normalize())*this.radius);
-
-            //for each component ball
-            Point2D componentBallVelocity = preCollisionVelocity + sqrt(energyPerBall / componentBallMass) * (componentBallPosition - pointOfCollision).normalize();
-        }
+//        float energyOfCollision = ball2.getMass()*pow(deltaV, 2);
+//        if (this.strength < energyOfCollision) {
+//            float energyPerBall = energyOfCollision / balls.size();
+//            Point2D pointOfCollision = (-deltaV.normalize())*this.radius;
+//
+//            //for each component ball
+//            Point2D componentBallVelocity = preCollisionVelocity + sqrt(energyPerBall / componentBallMass) * (componentBallPosition - pointOfCollision).normalize();
+//        }
 
 
         Iterator ballIterator = balls.iterator();
