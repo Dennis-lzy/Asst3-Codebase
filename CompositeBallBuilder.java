@@ -8,6 +8,10 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class specifies steps to build a Composite Ball
+ */
+
 public class CompositeBallBuilder implements BallBuilder{
     private String colour;
     private double xPosition;
@@ -19,6 +23,9 @@ public class CompositeBallBuilder implements BallBuilder{
     private Circle view;
     private List<Ball> balls = new ArrayList<Ball>();
 
+    /**
+     * Set methods
+     */
     @Override
     public void setColour(JSONObject jsonBall) {
         String colour = (String)jsonBall.get("colour");

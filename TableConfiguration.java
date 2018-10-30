@@ -13,6 +13,9 @@ import javafx.scene.paint.Paint;
  */
 public class TableConfiguration extends Configuration{
 
+	/**
+	 * Stub implementation. This class does not build these
+	 */
 	@Override
 	Pockets getPockets(JSONObject jsonPockets) {
 		return null;
@@ -22,6 +25,12 @@ public class TableConfiguration extends Configuration{
 	public Ball getBall(JSONObject jsonBall) {
 		return null;
 	}
+
+    /**
+     * Constructs a Table based on read parameters
+     * @param jsonTable
+     * @return
+     */
 
 	@Override
 	public Table getTable(JSONObject jsonTable) {
@@ -33,6 +42,9 @@ public class TableConfiguration extends Configuration{
 		Long tableY = (Long) ((JSONObject) jsonTable.get("size")).get("y");
 		Double tableFriction = (Double) jsonTable.get("friction");
 
+        /**
+         * Constructs Table with image if provided otherwise uses color property
+         */
 		if (path != null){
             Long offsetX = (Long) ((JSONObject) tableImage.get("offset")).get("x") ;
             Long offsetY = (Long) ((JSONObject) tableImage.get("offset")).get("y") ;

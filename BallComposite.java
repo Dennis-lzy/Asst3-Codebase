@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This class is responsible for composite ball objects with children
+ */
 public class BallComposite extends Ball {
     private List<Ball> balls = new ArrayList<Ball>();
     private Circle view;
@@ -20,6 +23,18 @@ public class BallComposite extends Ball {
     protected double radius;
     private boolean isSunk = false;
     private double strength;
+
+    /**
+     * Constructs BallComposite
+     * @param colour
+     * @param xPosition
+     * @param yPosition
+     * @param xVelocity
+     * @param yVelocity
+     * @param balls
+     * @param strength
+     * @param view
+     */
 
     public BallComposite(String colour, double xPosition, double yPosition, double xVelocity, double yVelocity, List<Ball> balls, double strength, Circle view) {
         super();
@@ -146,30 +161,59 @@ public class BallComposite extends Ball {
         this.view = view;
     }
 
+    /**
+     * Checks if ball has been sunk
+     * @return isSunk
+     */
     public boolean isSunk() {
         return isSunk;
     }
 
+    /**
+     * Sets sunk status of ball
+     * @param sunk
+     */
     public void setSunk(boolean sunk) {
         this.isSunk = sunk;
     }
 
+    /**
+     * Adds ball to children
+     * @param ball
+     */
     public void add(Ball ball){
         balls.add(ball);
     }
 
+    /**
+     * removes ball child
+     * @param ball
+     */
     public void remove(Ball ball){
         balls.remove(ball);
     }
 
+    /**
+     * Gets a child ball
+     * @param i
+     * @return ball.get(i)
+     */
     public Ball get(int i){
         return balls.get(i);
     }
 
+    /**
+     * Returns ball list
+     * @return balls
+     */
     public List<Ball> getBalls(){
         return balls;
     }
 
+    /**
+     * Calculates position while iterating through children
+     * @param tableBounds: boundaries of the table
+     */
     @Override
     public void calculatePosition(Bounds tableBounds) {
         super.calculatePosition(tableBounds);
@@ -181,6 +225,11 @@ public class BallComposite extends Ball {
         }
     }
 
+    /**
+     * Checks collision in ball and children
+     * @param ball2: ball to check collision against
+     * @return
+     */
     @Override
     public boolean isColliding(Ball ball2) {
 

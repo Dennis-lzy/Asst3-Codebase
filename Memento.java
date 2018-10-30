@@ -1,5 +1,8 @@
 package application;
 
+/**
+ * This class stores internal state of Ball
+ */
 public class Memento {
     private double xPosition;
     private double yPosition;

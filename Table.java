@@ -130,26 +130,34 @@ public class Table {
 
 	}
 
+	/**
+	 * Returns image file path
+	 * @return img
+	 */
 	public String getImg() {
 		return img;
 	}
 
+	/**
+	 * returns horizontal offset
+	 * @return offsetX
+	 */
 	public long getOffsetX() {
 		return offsetX;
 	}
 
-	public void setOffsetX(long offsetX) {
-		this.offsetX = offsetX;
-	}
-
+	/**
+	 * returns vertical offset
+	 * @return offsetY
+	 */
 	public long getOffsetY() {
 		return offsetY;
 	}
 
-	public void setOffsetY(long offsetY) {
-		this.offsetY = offsetY;
-	}
-
+	/**
+	 * Returns Table properties in String format
+	 * @return Table properties
+	 */
 	@Override
 	public String toString() {
 		return "Table [colour=" + colour + ", friction=" + friction + ", x=" + x + ", y=" + y + "]";

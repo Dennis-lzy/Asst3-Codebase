@@ -11,7 +11,9 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
-
+/**
+ * This class is responsible for the cuestick and shooting the ball
+ */
 
 public class Cue extends Line {
     private DoubleProperty mouseX = new SimpleDoubleProperty();
@@ -27,15 +29,29 @@ public class Cue extends Line {
     double newY;
     Rotate rotate = new Rotate(45);
 
+    /**
+     * Creates an instance of Cue
+     */
     private static Cue instance = new Cue();
 
+    /**
+     * Retrieves instance of Cue
+     * @return instance
+     */
     public static Cue getInstance(){
         return instance;
     }
 
-    public Cue(){}
+    /**
+     * Private constructor to prevent class from being instantiated
+     */
+    private Cue(){}
 
-
+    /**
+     * Sets cue ball for the cue to be bound to
+     * @param cb
+     * @param r
+     */
     public void setCueBall(CueBall cb, Pane r) {
 
         super.setStrokeWidth(5);
@@ -48,7 +64,10 @@ public class Cue extends Line {
     }
 
 
-    //sets power based on how far you drag
+    /**
+     * Sets power based on distance dragged from CueBall
+     * @param line
+     */
     public void setPower(Line line){
         Point2D start = new Point2D(line.getStartX(), line.getStartY());
         Point2D end = new Point2D(line.getEndX(), line.getEndY());
@@ -58,7 +77,11 @@ public class Cue extends Line {
         }
     }
 
-    //shoots ball
+    /**
+     * Shoots ball based on power
+     * @param A
+     * @param B
+     */
     public void shoot(CueBall A, Line B) {
 
         double x1 = A.getxPosition();
@@ -75,7 +98,11 @@ public class Cue extends Line {
     }
 
 
-
+    /**
+     * Enable line to be dragged from ball
+     * @param node
+     * @param root
+     */
     private void startDrag(CueBall node, Pane root) {
 
         powerLine = new Line();
@@ -110,6 +137,10 @@ public class Cue extends Line {
 
     }
 
+    /**
+     * Stops the line dragging
+     *
+     */
     private void stopDrag(Circle node) {
         dragActive = false;
 
@@ -127,10 +158,13 @@ public class Cue extends Line {
         powerLine.endYProperty().unbind();
         root.getChildren().remove(powerLine);
         root.getChildren().remove(cueStick);
-        cueStick = null;
+//        cueStick = null;
         powerLine = null;
     }
 
+    /**
+     * Attach mouse event handlers
+     */
     public void attachHandlers() {
 
             root.setOnMouseMoved(e -> {
@@ -138,7 +172,7 @@ public class Cue extends Line {
                 mouseY.set(e.getSceneY());
                 newX = e.getSceneX();
                 newY = e.getSceneY();
-                rotate.setAngle(Math.toDegrees(Math.atan2(newY - cueball.getyPosition(), newX - cueball.getxPosition())));
+                //rotate.setAngle(Math.toDegrees(Math.atan2(newY - cueball.getyPosition(), newX - cueball.getxPosition())));
             });
 
             root.setOnMouseDragged(e -> {
@@ -146,7 +180,7 @@ public class Cue extends Line {
                 mouseY.set(e.getSceneY());
                 newX = e.getSceneX();
                 newY = e.getSceneY();
-                rotate.setAngle(Math.toDegrees(Math.atan2(newY - cueball.getyPosition(), newX - cueball.getxPosition())));
+                //rotate.setAngle(Math.toDegrees(Math.atan2(newY - cueball.getyPosition(), newX - cueball.getxPosition())));
             });
 
             root.setOnMousePressed(e -> {
@@ -158,7 +192,9 @@ public class Cue extends Line {
             });
         }
 
-
+    /**
+     * Detaches mouse events handlers
+     */
     public void detachHandlers(){
 
         root.setOnMouseMoved(e -> {

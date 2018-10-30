@@ -7,6 +7,10 @@ import javafx.scene.shape.Circle;
 
 import java.util.List;
 
+/**
+ * This class defines Pocket object types
+ */
+
 public class Pockets extends Ball {
 
     private Circle view;
@@ -14,6 +18,12 @@ public class Pockets extends Ball {
     protected double yPosition;
     protected double radius;
 
+    /**
+     * Constructs a Pocket object
+     * @param xPosition
+     * @param yPosition
+     * @param radius
+     */
     public Pockets(double xPosition, double yPosition, double radius){
         this.xPosition = xPosition;
         this.yPosition = yPosition;
@@ -21,51 +31,39 @@ public class Pockets extends Ball {
         this.setView();
     }
 
+    /**
+     * Returns the view of the ball
+     * @return view: of the ball
+     */
     @Override
     public Circle getView() {
         return view;
     }
 
-
+    /**
+     * Sets the view of the pocket
+     */
     public void setView() {
         this.view = new Circle(this.xPosition, this.yPosition, this.radius, Color.BLACK);
     }
 
-    @Override
-    public double getxPosition() {
-        return xPosition;
-    }
 
-    @Override
-    public void setxPosition(double xPosition) {
-        this.xPosition = xPosition;
-    }
-
-    @Override
-    public double getyPosition() {
-        return yPosition;
-    }
-
-    @Override
-    public void setyPosition(double yPosition) {
-        this.yPosition = yPosition;
-    }
-
-    @Override
-    public double getRadius() {
-        return radius;
-    }
-
-    @Override
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
+    /**
+     * Removes balls that have been sunk
+     * @param root
+     * @param ball
+     * @param balls
+     */
     public void removeSunkBalls(Pane root, Ball ball, List<Ball> balls){
         root.getChildren().remove(ball.getView());
         balls.remove(ball);
     }
 
+    /**
+     * Detects if pocket contains a ball
+     * @param ball
+     * @return
+     */
     public boolean containsBall(Ball ball) {
         // Create Node to represent location of the balls in the next frame and check if colliion
         // will happen in next frame

@@ -2,9 +2,15 @@ package application;
 
 import org.json.simple.JSONObject;
 
+/**
+ * This class is responsible for building pockets
+ */
+
 public class PocketsConfiguration extends Configuration {
 
-
+    /**
+     * Stub implementation. This class does not build these
+     */
     @Override
     Ball getBall(JSONObject jsonBall) {
         return null;
@@ -15,6 +21,11 @@ public class PocketsConfiguration extends Configuration {
         return null;
     }
 
+    /**
+     * Builds pockets based on read parameters
+     * @param jsonPockets
+     * @return Pocket
+     */
     @Override
     Pockets getPockets(JSONObject jsonPockets) {
         Double pocketX = (Double) ((JSONObject) jsonPockets.get("position")).get("x");

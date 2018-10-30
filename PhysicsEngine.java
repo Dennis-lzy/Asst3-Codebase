@@ -3,6 +3,10 @@ package application;
 import javafx.geometry.Point2D;
 import javafx.util.Pair;
 
+/**
+ * This class is responsible for collision physics of the balls
+ */
+
 public class PhysicsEngine {
 
     // A quick usage example for the utility you may use to test it is working correctly

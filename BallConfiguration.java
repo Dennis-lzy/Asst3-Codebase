@@ -34,7 +34,7 @@ public class BallConfiguration extends Configuration {
 
 	@Override
 	/**
-	 * Stub implementation. This class does not build tables
+	 * Stub implementation. This class does not build these
 	 */
 	public Table getTable(JSONObject jsonTable) {
 		return null;

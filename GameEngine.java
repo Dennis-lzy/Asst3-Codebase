@@ -26,7 +26,9 @@ public class GameEngine {
 	private Ball cueBall = null;
 	private List<Pockets> pockets = new ArrayList<>();
 
-
+	/**
+	 * Cleans the Game engine for a new game
+	 */
 	public void clearAll(){
 		this.table=null;
 		this.balls = new ArrayList<>();
@@ -52,20 +54,26 @@ public class GameEngine {
 		return balls;
 	}
 
+	/**
+	 * Sets list of existing balls
+	 * @param balls
+	 */
 	public void setBalls(List<Ball> balls) {
 		this.balls = balls;
 	}
 
 	/**
-	 * Sets the state of balls for memento
+	 * returns list of existing pockets
+	 * @return pockets
 	 */
-
-
-
 	public List<Pockets> getPockets() {
 		return pockets;
 	}
 
+	/**
+	 * Sets pockets
+	 * @param pockets
+	 */
 	public void setPockets(List<Pockets> pockets) {
 		this.pockets = pockets;
 	}
@@ -212,6 +220,10 @@ public class GameEngine {
 		}
 	}
 
+	/**
+	 * Checks Pockets to see if the contain balls and remove them
+	 * @param root
+	 */
 	public void checkPockets(Pane root) {
 		for(Pockets p : this.getPockets()){
 			Pockets pocket = p;

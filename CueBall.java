@@ -9,8 +9,6 @@ import javafx.scene.shape.Circle;
 public class CueBall extends Ball {
 
 
-	private boolean isHit;
-
 	/**
 	 * Construct the cue ball with given parameters
 	 * @param colour: colour of the cueball
@@ -34,9 +32,6 @@ public class CueBall extends Ball {
 	}
 
 
-    public boolean isHit() {
-        return isHit;
-    }
 
     /**
 	 * Returns If cueball is at rest
@@ -58,11 +53,20 @@ public class CueBall extends Ball {
 	}
 
 
+	/**
+	 * Checks collision
+	 * @param ball2: ball to check collision against
+	 * @return
+	 */
 	@Override
 	public boolean isColliding(Ball ball2) {
 		return super.isColliding(ball2);
 	}
 
+	/**
+	 * Calculates position
+	 * @param tableBounds: boundaries of the table
+	 */
 	@Override
 	public void calculatePosition(Bounds tableBounds) {
 		super.calculatePosition(tableBounds);

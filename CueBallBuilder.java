@@ -19,6 +19,11 @@ public class CueBallBuilder implements BallBuilder {
 	private double mass;
 	private double radius = 10.0;	// Default radius 10.0cm
 	private Circle view;
+
+	/**
+	 * Set methods
+	 *
+	 */
 	@Override
 	public void setColour(JSONObject jsonBall) {	}	// Colour has to be white
 	@Override
